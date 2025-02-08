@@ -1,18 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
-function ClientForm({ onCreated }) {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
+function ClientEditForm({ client, onSave }) {
+  const [name, setName] = useState(client.name);
+  const [email, setEmail] = useState(client.email);
+
+  useEffect(() => {
+    setName(client.name);
+    setEmail(client.email);
+  }, [client]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!name || !email) return;
-    onCreated({ name, email });
+    onSave({ id: client.id, name, email });
   };
 
   return (
     <form onSubmit={handleSubmit} className='space-y-4'>
-      <h3 className='text-xl font-bold'>Добавить клиента</h3>
+      <h3 className='text-xl font-bold'>Редактировать клиента</h3>
       <div>
         <label className='block mb-2 text-gray-400'>Имя:</label>
         <input
@@ -45,4 +49,4 @@ function ClientForm({ onCreated }) {
   );
 }
 
-export default ClientForm;
+export default ClientEditForm;
